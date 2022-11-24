@@ -15,6 +15,6 @@ with os.scandir(basedir) as faces:
         if face.is_file():
             img = load_img(basedir + face.name, color_mode = "grayscale")
             np_img = img_to_array(img)[:,:,0]
-print(np.shape(np_img))
-np.savetxt(file,np_img)
+        print(np.shape(np_img))
+        np.savetxt(file,np_img)
 file.close()
