@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 22 22:20:46 2022
+Update on Sat Nov 26 cdoebler
 
 @author: chanjoelle
 """
@@ -28,54 +29,27 @@ try:
 except OSError as error:
     print("Test Directory already exists")
     
-
-emotions = ["angry", "digusted", "fearful", "happy", "neutral", "sad", "suprised"]
-
-#change to the train directory to create the corresponding csv files
-# os.chdir(train_path)
+emotions = ["angry", "disgusted", "fearful", "happy", "neutral", "sad", "surprised"]
 
 #create the csv file for every emotions
 for i in range(len(emotions)):
     train_path_emotion = os.path.join(train_path, emotions[i])
-    train_data_emotion = os.path.join("dataset/train", emotions[i], "/")
+    train_data_emotion = os.path.join("dataset/train", emotions[i])
     test_path_emotion = os.path.join(test_path, emotions[i])
-    test_data_emotion = os.path.join("dataset/test", emotions[i], "/")
+    test_data_emotion = os.path.join("dataset/test", emotions[i])
     file = open(train_path_emotion + ".csv", "w")
     with os.scandir(train_data_emotion) as faces:
         for face in faces:
-            if face.is_file():
-                img = load_img(train_data_emotion + face.name, color_mode = "grayscale")
-                print(train_data_emotion + face.name)
+             if face.is_file():
+                img = load_img(os.path.join(train_data_emotion, face.name), color_mode = "grayscale")
                 np_img = img_to_array(img)[:,:,0]
-            np.savetxt(file, np_img)
+                np.savetxt(file, np_img)
     file.close()
     file = open(test_path_emotion + ".csv", "w")
     with os.scandir(test_data_emotion) as faces:
         for face in faces:
             if face.is_file():
-                img = load_img(test_data_emotion + face.name, color_mode = "grayscale")
+                img = load_img(os.path.join(test_data_emotion, face.name), color_mode = "grayscale")
                 np_img = img_to_array(img)[:,:,0]
-            np.savetxt(file, np_img)
+                np.savetxt(file, np_img)
     file.close()
-
-# change to the test directory to create the corresponding csv files
-# os.chdir("../../../")
-# os.chdir(test_path)
-
-# create the csv file for every emotions
-# for i in range(len(emotions)):
-#    file = open(emotions[i]+".csv", "w")
-
-# os.chdir("../../../")    
-# original_path = "dataset/train/angry/"
-
-# os.chdir(original_path)    
-# basedir = ('dataset/train/angry/')
-# with os.scandir(basedir) as faces:
-#    for face in faces:
-#        if face.is_file():
-#            img = load_img(basedir + face.name, color_mode = "grayscale")
-#            np_img = img_to_array(img)[:,:,0]
-#print(np.shape(np_img))
-#        np.savetxt(file,np_img)
-# file.close()
