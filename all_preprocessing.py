@@ -32,29 +32,50 @@ except OSError as error:
 emotions = ["angry", "digusted", "fearful", "happy", "neutral", "sad", "suprised"]
 
 #change to the train directory to create the corresponding csv files
-os.chdir(train_path)
+# os.chdir(train_path)
 
 #create the csv file for every emotions
 for i in range(len(emotions)):
-    file = open(emotions[i]+".csv", "w")
+    train_path_emotion = os.path.join(train_path, emotions[i])
+    train_data_emotion = os.path.join("dataset/train", emotions[i], "/")
+    test_path_emotion = os.path.join(test_path, emotions[i])
+    test_data_emotion = os.path.join("dataset/test", emotions[i], "/")
+    file = open(train_path_emotion + ".csv", "w")
+    with os.scandir(train_data_emotion) as faces:
+        for face in faces:
+            if face.is_file():
+                img = load_img(train_data_emotion + face.name, color_mode = "grayscale")
+                print(train_data_emotion + face.name)
+                np_img = img_to_array(img)[:,:,0]
+            np.savetxt(file, np_img)
+    file.close()
+    file = open(test_path_emotion + ".csv", "w")
+    with os.scandir(test_data_emotion) as faces:
+        for face in faces:
+            if face.is_file():
+                img = load_img(test_data_emotion + face.name, color_mode = "grayscale")
+                np_img = img_to_array(img)[:,:,0]
+            np.savetxt(file, np_img)
+    file.close()
 
-#change to the test directory to create the corresponding csv files
-os.chdir(test_path)
+# change to the test directory to create the corresponding csv files
+# os.chdir("../../../")
+# os.chdir(test_path)
 
-#create the csv file for every emotions
-for i in range(len(emotions)):
-    file = open(emotions[i]+".csv", "w")
+# create the csv file for every emotions
+# for i in range(len(emotions)):
+#    file = open(emotions[i]+".csv", "w")
 
-    
-original_path = "dataset/train/angry/"
+# os.chdir("../../../")    
+# original_path = "dataset/train/angry/"
 
-os.chdir(original_path)    
-basedir = ('dataset/train/angry/')
-with os.scandir(basedir) as faces:
-    for face in faces:
-        if face.is_file():
-            img = load_img(basedir + face.name, color_mode = "grayscale")
-            np_img = img_to_array(img)[:,:,0]
-print(np.shape(np_img))
-np.savetxt(file,np_img)
-file.close()
+# os.chdir(original_path)    
+# basedir = ('dataset/train/angry/')
+# with os.scandir(basedir) as faces:
+#    for face in faces:
+#        if face.is_file():
+#            img = load_img(basedir + face.name, color_mode = "grayscale")
+#            np_img = img_to_array(img)[:,:,0]
+#print(np.shape(np_img))
+#        np.savetxt(file,np_img)
+# file.close()
