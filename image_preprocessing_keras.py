@@ -9,6 +9,7 @@ from tensorflow.keras.utils import img_to_array
 import numpy as np
 import array
 
+"""
 i = 0
 file = open("angry.csv", "w")
 basedir = ('dataset/train/angry/')
@@ -26,3 +27,9 @@ with os.scandir(basedir) as faces:
  
 print(str(i) + " images processed")
 file.close()
+"""
+
+basedir = ('dataset/train/angry/')
+img = load_img(basedir + "im0.png", color_mode = "grayscale")
+np_img = [img_to_array(img)[:,:,0].flatten(), "angry"]
+print(np_img)
