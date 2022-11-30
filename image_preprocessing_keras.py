@@ -7,24 +7,22 @@ import os
 from tensorflow.keras.utils import load_img
 from tensorflow.keras.utils import img_to_array
 import numpy as np
+import array
 
-"""
 i = 0
 file = open("angry.csv", "w")
 basedir = ('dataset/train/angry/')
 with os.scandir(basedir) as faces:
     for face in faces:
+       
         if face.is_file():
             img = load_img(basedir + face.name, color_mode = "grayscale")
             np_img = img_to_array(img)[:,:,0]
             i += 1
-#        print(np.shape(np_img))
-        np.savetxt(file,np_img)
+            temp = np_img.flatten()
+            np.savetxt(file,np_img)
+    print(np_img)
+    print(temp)
+ 
 print(str(i) + " images processed")
 file.close()
-"""
-
-basedir = ('dataset/train/angry')
-img = load_img(basedir + im0.png, color_mode = "grayscale")
-np_img = np.stack(img_to_array(img)[:,:,0])
-print(np_img)
