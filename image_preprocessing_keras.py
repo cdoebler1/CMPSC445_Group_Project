@@ -7,10 +7,14 @@ import os
 from tensorflow.keras.utils import load_img
 from tensorflow.keras.utils import img_to_array
 import numpy as np
+import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
 
 
 i = 0
-file = open("angry.csv", "w")
+##file = open("angry.csv", "w")
 basedir = ('dataset/train/angry/')
 all_data = []
 with os.scandir(basedir) as faces:
@@ -24,7 +28,15 @@ with os.scandir(basedir) as faces:
             all_data.extend(temp)
            
 all_data = np.reshape(all_data,(-1,2304))
-np.savetxt(file,all_data)
-print(all_data)
+dataframe = pd.DataFrame(all_data)
+dataframe['emotion'] = 'angry'
+with open('angry_!.csv','w') as file:
+    dataframe.to_csv(path_or_buf= file, index = False, header = False)
+pd.DataFrame.to_csv(dataframe)
+#print(all_data)
 print(str(i) + " images processed")
 file.close()
+
+
+
+"""
