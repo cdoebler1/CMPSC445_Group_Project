@@ -42,7 +42,7 @@ for i in range(len(emotions)):
         for face in faces:
              if face.is_file():
                 img = load_img(os.path.join(train_data_emotion, face.name), color_mode = "grayscale")
-                np_img = img_to_array(img)[:,:,0]
+                np_img = img_to_array(img, dtype=int)[:,:,0].flatten()
                 np.savetxt(file, np_img)
     file.close()
     file = open(test_path_emotion + ".csv", "w")
@@ -50,6 +50,6 @@ for i in range(len(emotions)):
         for face in faces:
             if face.is_file():
                 img = load_img(os.path.join(test_data_emotion, face.name), color_mode = "grayscale")
-                np_img = img_to_array(img)[:,:,0]
+                np_img = img_to_array(img, dtype=int)[:,:,0].flatten()
                 np.savetxt(file, np_img)
     file.close()
