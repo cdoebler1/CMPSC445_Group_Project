@@ -6,10 +6,8 @@ Created on Sun Oct 16 16:47:56 2022
 @author: CMPSC445 WCFa22 Group 2
 """
 
-import numpy as np
 import preprocessor as pp
 import tensorflow as tf
-import keras
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')
@@ -52,12 +50,3 @@ print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
 # Save model
 tf.keras.models.save_model(model, './save')
 
-# prediction demo
-class_names = train_data.class_names
-sample = tf.keras.utils.load_img("dataset/test/angry/im0.png", color_mode = "grayscale")
-sample_data = np.array(sample)
-sample_data = sample_data[np.newaxis,:,:]
-prediction = model.predict(sample_data)
-num_class = np.argmax(prediction, axis = 1)
-name_class = class_names[num_class[0]]
-pp.single_image_display(sample, name_class)

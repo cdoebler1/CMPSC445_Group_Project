@@ -2,3 +2,6 @@
 angry.csv
 *.csv
 *.pyc
+*.pb
+save/variables/variables.data-00000-of-00001
+save/variables/variables.index
