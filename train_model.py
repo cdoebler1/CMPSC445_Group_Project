@@ -8,10 +8,15 @@ Created on Sun Oct 16 16:47:56 2022
 
 import preprocessor as pp
 import tensorflow as tf
+import datetime
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')
 test_data = pp.preprocess('dataset/test')
+
+# Define the Keras TensorBoard callback.
+log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 # Display a few sample images from the training and test data sets
 num_images = 9
@@ -42,7 +47,8 @@ model.compile(
 model.fit(
   train_data,
   validation_data=test_data,
-  epochs=3)
+  epochs=10,
+  callbacks=[tensorboard_callback])
 
 score = model.evaluate(test_data, verbose=0)
 print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
