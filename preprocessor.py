@@ -28,4 +28,9 @@ def image_sample_display(data_set, num_images):
             plt.title(class_names[labels[i]])
             plt.axis("off")
 
-            
+
+def single_image_display (sample, prediction):
+    plt.figure(figsize=(10,10))
+    plt.imshow(sample)
+    plt.title(prediction)
+               
