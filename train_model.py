@@ -24,7 +24,6 @@ pp.image_sample_display(train_data, num_images)
 pp.image_sample_display(test_data, num_images)
 
 # Train the model
-# num_classes = 7
 num_classes = len(train_data.class_names)
 
 model = tf.keras.Sequential([
@@ -40,18 +39,18 @@ model = tf.keras.Sequential([
   tf.keras.layers.Dense(num_classes)])
 
 model.compile(
-  optimizer='adam',
+  optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005), #default 0.001
   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
   metrics=['accuracy'])
 
 model.fit(
   train_data,
   validation_data=test_data,
-  epochs=10,
+  epochs=50,
   callbacks=[tensorboard_callback])
 
 score = model.evaluate(test_data, verbose=0)
-print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
+print(f'\nTest loss: {score[0]} / Test accuracy: {score[1]}\n')
 
 # Save model
 tf.keras.models.save_model(model, './save')

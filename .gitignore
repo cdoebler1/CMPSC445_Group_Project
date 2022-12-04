@@ -3,9 +3,5 @@ angry.csv
 *.csv
 *.pyc
 *.pb
-save/variables/variables.data-00000-of-00001
-save/variables/variables.index
-logs/fit/20221203-162230/validation/events.out.tfevents.1670102578.NUCBOX4.18688.3.v2
-logs/fit/20221203-161401/train/events.out.tfevents.1670102042.NUCBOX4.18688.0.v2
-logs/fit/20221203-161401/validation/events.out.tfevents.1670102070.NUCBOX4.18688.1.v2
-logs/fit/20221203-162230/train/events.out.tfevents.1670102551.NUCBOX4.18688.2.v2
+save/*
+logs/*
