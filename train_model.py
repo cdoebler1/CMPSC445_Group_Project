@@ -16,7 +16,8 @@ test_data = pp.preprocess('dataset/test')
 
 # Define the Keras TensorBoard callback.
 log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, 
+                                                      histogram_freq=1)
 
 # Display a few sample images from the training and test data sets
 num_images = 9

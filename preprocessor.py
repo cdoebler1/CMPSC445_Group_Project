@@ -10,12 +10,20 @@ from tensorflow.keras.utils import image_dataset_from_directory
 import matplotlib.pyplot as plt
 
 def preprocess(data_dir):
-    data_set = image_dataset_from_directory(data_dir, labels = 'inferred', label_mode = 'int',
-                                          class_names=None, color_mode = "grayscale",
-                                          batch_size=32, image_size=(48,48), shuffle=True,
-                                          seed=None, validation_split=None, subset=None,
-                                          interpolation='bilinear', follow_links=False,
-                                          crop_to_aspect_ratio=False)
+    data_set = image_dataset_from_directory(data_dir, 
+                                            labels = 'inferred',
+                                            label_mode = 'int', 
+                                            class_names=None,
+                                            color_mode = "grayscale",
+                                            batch_size=32, 
+                                            image_size=(48,48),
+                                            shuffle=True,
+                                            seed=None,
+                                            validation_split=None,
+                                            subset=None,
+                                            interpolation='bilinear',
+                                            follow_links=False,
+                                            crop_to_aspect_ratio=False)
     return(data_set)
 
 def image_sample_display(data_set, num_images):

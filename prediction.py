@@ -15,7 +15,8 @@ from tkinter import filedialog
 def prediction(sample):
     # Load model
     model = tf.keras.models.load_model('./save', compile = True)
-    class_names = ['angry', 'disgusted', 'fearful', 'happy', 'neutral', 'sad', 'surprised']
+    class_names = ['angry', 'disgusted', 'fearful', 'happy', 'neutral', 'sad',
+                   'surprised']
     sample_data = np.array(sample)
     sample_data = sample_data[np.newaxis,:,:]
     prediction = model.predict(sample_data)
