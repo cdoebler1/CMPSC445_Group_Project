@@ -8,21 +8,26 @@ Created on Sun Oct 16 16:47:56 2022
 
 import preprocessor as pp
 import tensorflow as tf
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import datetime
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')
-test_data = pp.preprocess('dataset/test')
+validation_data = pp.preprocess('dataset/test')
 
 # Define the Keras TensorBoard callback.
 log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, 
-                                                      histogram_freq=1)
+here_kitty_kitty = [TensorBoard(log_dir=log_dir, histogram_freq=1),
+                    EarlyStopping(monitor='val_accuracy', patience=5),
+                    ModelCheckpoint(filepath='best.h5', monitor='val_accuracy',
+                                    save_best_only=True)]
 
 # Display a few sample images from the training and test data sets
 num_images = 9
 pp.image_sample_display(train_data, num_images)
-pp.image_sample_display(test_data, num_images)
+pp.image_sample_display(validation_data, num_images)
 
 # Train the model
 num_classes = len(train_data.class_names)
@@ -46,11 +51,11 @@ model.compile(
 
 model.fit(
   train_data,
-  validation_data=test_data,
-  epochs=50,
-  callbacks=[tensorboard_callback])
+  validation_data=validation_data,
+  epochs=20,
+  callbacks=here_kitty_kitty)
 
-score = model.evaluate(test_data, verbose=0)
+score = model.evaluate(validation_data, verbose=0)
 print(f'\nTest loss: {score[0]} / Test accuracy: {score[1]}\n')
 
 # Save model
