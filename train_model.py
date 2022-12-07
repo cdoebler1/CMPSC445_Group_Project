@@ -10,8 +10,8 @@ import preprocessor as pp
 import tensorflow as tf
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import datetime
-import os
-os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+# import os
+# os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')
@@ -52,8 +52,10 @@ model.compile(
 model.fit(
   train_data,
   validation_data=validation_data,
-  epochs=20,
+  epochs=50,
   callbacks=here_kitty_kitty)
+
+model = tf.keras.models.load_model('./best.h5', compile = True)
 
 score = model.evaluate(validation_data, verbose=0)
 print(f'\nTest loss: {score[0]} / Test accuracy: {score[1]}\n')
