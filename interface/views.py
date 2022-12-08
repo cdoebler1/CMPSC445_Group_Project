@@ -11,11 +11,8 @@ import numpy as np
 import ML.prediction
 import ML.preprocessor as pp
 import tensorflow as tf
-import keras
-
-
-# def home(request):
-#    return render(request, 'interface/home.html')
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+import datetime
 
 
 def result(request):
@@ -29,15 +26,21 @@ def error(request):
 def train(request):
     # Preprocess the data set
     train_data = pp.preprocess('ML/dataset/train')
-    test_data = pp.preprocess('ML/dataset/test')
+    validation_data = pp.preprocess('ML/dataset/test')
+
+    # Define the Keras TensorBoard callback.
+    log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    here_kitty_kitty = [TensorBoard(log_dir=log_dir, histogram_freq=1),
+                        EarlyStopping(monitor='val_accuracy', patience=5),
+                        ModelCheckpoint(filepath='best.h5', monitor='val_accuracy',
+                                        save_best_only=True)]
 
     # Display a few sample images from the training and test data sets
     num_images = 9
     pp.image_sample_display(train_data, num_images)
-    pp.image_sample_display(test_data, num_images)
+    pp.image_sample_display(validation_data, num_images)
 
     # Train the model
-    # num_classes = 7
     num_classes = len(train_data.class_names)
 
     model = tf.keras.Sequential([
@@ -53,17 +56,20 @@ def train(request):
         tf.keras.layers.Dense(num_classes)])
 
     model.compile(
-        optimizer='adam',
+        optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005),  # default 0.001
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=['accuracy'])
 
     model.fit(
         train_data,
-        validation_data=test_data,
-        epochs=3)
+        validation_data=validation_data,
+        epochs=50,
+        callbacks=here_kitty_kitty)
 
-    score = model.evaluate(test_data, verbose=0)
-    print(f'Test loss: {score[0]} / Test accuracy: {score[1]}')
+    model = tf.keras.models.load_model('./best.h5', compile=True)
+
+    score = model.evaluate(validation_data, verbose=0)
+    print(f'\nTest loss: {score[0]} / Test accuracy: {score[1]}\n')
 
     # Save model
     tf.keras.models.save_model(model, './save')
