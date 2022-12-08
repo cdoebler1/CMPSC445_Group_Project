@@ -7,7 +7,7 @@ Created on Sat Dec  3 06:11:04 2022
 """
 
 import numpy as np
-import preprocessor as pp
+import ML.preprocessor as pp
 import tensorflow as tf
 from tkinter import filedialog
 
