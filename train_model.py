@@ -8,21 +8,36 @@ Created on Sun Oct 16 16:47:56 2022
 
 import preprocessor as pp
 import tensorflow as tf
-from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, LearningRateScheduler
 import datetime
-# import os
-# os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+
+"""# The following 2 lines of code are a fix for a problem with Anaconda/Spyder
+installs. If packages are installed in a certain orders, you may have 
+duplicate libraries. I don't need this code on one computer that I use, but it is
+necessary on my work computer. The real solution is to uninstall the packages
+and then reinstall them in a magical sequence unknown to anyone. """
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')
 validation_data = pp.preprocess('dataset/test')
 
+# Set up a decreasing learning rate Start decreasing at 10 epochs.
+def scheduler (epoch, learning_rate):
+    if epoch < 10:
+        return learning_rate
+    else:
+        return learning_rate * tf.math.exp(-0.1)
+
 # Define the Keras TensorBoard callback.
-log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-here_kitty_kitty = [TensorBoard(log_dir=log_dir, histogram_freq=1),
+buried_bodies = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+here_kitty_kitty = [TensorBoard(log_dir=buried_bodies, histogram_freq=1),
                     EarlyStopping(monitor='val_accuracy', patience=5),
-                    ModelCheckpoint(filepath='best.h5', monitor='val_accuracy',
-                                    save_best_only=True)]
+                    ModelCheckpoint(filepath='checkpoint.h5',
+                                    monitor='val_accuracy',
+                                    save_best_only=True),
+                    LearningRateScheduler(scheduler, verbose=0)]
 
 # Display a few sample images from the training and test data sets
 num_images = 9
@@ -45,9 +60,9 @@ model = tf.keras.Sequential([
   tf.keras.layers.Dense(num_classes)])
 
 model.compile(
-  optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005), #default 0.001
-  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-  metrics=['accuracy'])
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005), #default 0.001
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=['accuracy'])
 
 model.fit(
   train_data,
@@ -55,7 +70,7 @@ model.fit(
   epochs=50,
   callbacks=here_kitty_kitty)
 
-model = tf.keras.models.load_model('./best.h5', compile = True)
+model = tf.keras.models.load_model('./checkpoint.h5', compile = True)
 
 score = model.evaluate(validation_data, verbose=0)
 print(f'\nTest loss: {score[0]} / Test accuracy: {score[1]}\n')

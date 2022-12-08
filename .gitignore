@@ -5,3 +5,4 @@ angry.csv
 *.pb
 save/*
 logs/*
+*.h5
