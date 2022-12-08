@@ -9,13 +9,13 @@ Created on Tue Nov 22 22:20:46 2022
 from tensorflow.keras.utils import image_dataset_from_directory
 import matplotlib.pyplot as plt
 
-def preprocess(data_dir):
+def preprocess(data_dir, batch):
     data_set = image_dataset_from_directory(data_dir, 
                                             labels = 'inferred',
                                             label_mode = 'int', 
                                             class_names=None,
                                             color_mode = "grayscale",
-                                            batch_size=32, 
+                                            batch_size=batch, 
                                             image_size=(48,48),
                                             shuffle=True,
                                             seed=None,

@@ -20,8 +20,9 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Preprocess the data set
-train_data = pp.preprocess('dataset/train')
-validation_data = pp.preprocess('dataset/test')
+batch_size = 32
+train_data = pp.preprocess('dataset/train', batch_size)
+validation_data = pp.preprocess('dataset/test', batch_size)
 
 # Set up a decreasing learning rate Start decreasing at 10 epochs.
 def scheduler (epoch, learning_rate):
@@ -51,14 +52,14 @@ model = tf.keras.Sequential([
   tf.keras.layers.Rescaling(1./255),
   tf.keras.layers.Conv2D(32, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
-  tf.keras.layers.Conv2D(32, 3, activation='relu'),
+  tf.keras.layers.Conv2D(64, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
-  tf.keras.layers.Conv2D(32, 3, activation='relu'),
+  tf.keras.layers.Conv2D(64, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
   tf.keras.layers.Flatten(),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dense(num_classes)])
-
+    
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005), #default 0.001
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
