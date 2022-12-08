@@ -7,3 +7,4 @@ Pillow~=9.3.0
 sklearn~=0.0
 scikit-learn~=1.0.1
 Django~=3.2.9
+django-widget-tweaks~=1.4.12
