@@ -20,7 +20,7 @@
     <div>
 
         <div class="g-info d-flex aligns-items-center justify-content-center">
-            <h1 class="text-center">Error</h1>
+            <h1 class="text-center text-danger">Error</h1>
         </div>
 
         {% if ERROR %}
@@ -28,14 +28,20 @@
             <h1 class="text-center">{{ ERROR }}</h1>
             <div class="g-info d-flex aligns-items-center justify-content-center">
                 {% if ERROR == "Model not Generated" %}
-                    <a href="/train" class="btn bg-light mr-3 btn-lg active" role="button" aria-pressed="true">Generate
+                    <div class="mx-2">
+                        <a href="/train" class="btn bg-light btn-lg active" role="button" aria-pressed="true">Generate
                         Model</a>
-                    <a href="" class="btn bg-light active" role="button" aria-pressed="true">Return Home</a>
+                    </div>
+                    <a href="" class="btn bg-light btn-lg active" role="button" aria-pressed="true">Return Home</a>
                 {% elif ERROR == "Unable to process image, please try another." %}
                     <a href="" class="btn bg-light active" role="button" aria-pressed="true">Try Another
                         Image</a>
                 {% endif %}
             </div>
+            {% if ERROR == "Model not Generated" %}
+                <br>
+                <p class="text-danger">Warning: Generating the model can take a long time</p>
+            {% endif %}
         {% endif %}
 
     </div>
