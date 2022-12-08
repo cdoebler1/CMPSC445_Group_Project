@@ -6,7 +6,7 @@ Created on Sun Oct 16 16:47:56 2022
 @author: CMPSC445 WCFa22 Group 2
 """
 
-import preprocessor as pp
+import ML.preprocessor as pp
 import tensorflow as tf
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import datetime
@@ -14,8 +14,8 @@ import datetime
 # os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Preprocess the data set
-train_data = pp.preprocess('../dataset/train')
-validation_data = pp.preprocess('../dataset/test')
+train_data = pp.preprocess('ML/dataset/train')
+validation_data = pp.preprocess('ML/dataset/test')
 
 # Define the Keras TensorBoard callback.
 log_dir="logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
