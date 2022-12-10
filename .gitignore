@@ -1,8 +1,4 @@
 
-angry.csv
 *.csv
 *.pyc
 *.pb
-save/*
-logs/*
-*.h5
