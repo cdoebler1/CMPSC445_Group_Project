@@ -2,3 +2,6 @@
 *.csv
 *.pyc
 *.pb
+save_model2/variables/variables.index
+save_model2/variables/variables.data-00000-of-00001
+model2.h5
