@@ -7,7 +7,7 @@ Created on Sun Oct 16 16:47:56 2022
 """
 
 import os
-from ML.preprocessor import preprocess, image_sample_display
+from preprocessor import preprocess, image_sample_display
 import tensorflow as tf
 from tensorflow.keras import Sequential, regularizers
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Rescaling, Flatten, Dense, Dropout, BatchNormalization

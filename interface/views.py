@@ -8,8 +8,8 @@ from django.core.files.storage import FileSystemStorage
 
 import numpy as np
 
-import ML.prediction
-import ML.preprocessor as pp
+import prediction
+import preprocessor as pp
 import tensorflow as tf
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import datetime
@@ -88,7 +88,7 @@ def home(request):
 
         try:
             image = tf.keras.utils.load_img(filepath, color_mode="grayscale")
-            prediction = ML.prediction.prediction(image)
+            predictionCall = prediction.prediction(image)
         except OSError:
             return render(request, 'interface/error.html', {
                 'ERROR': "Model not Generated",
@@ -100,6 +100,6 @@ def home(request):
 
         return render(request, 'interface/result.html', {
             'uploaded_file_url': uploaded_file_url,
-            'prediction': prediction
+            'prediction': predictionCall
         })
     return render(request, 'interface/home.html')
