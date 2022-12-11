@@ -7,8 +7,9 @@ Created on Sun Oct 16 16:47:56 2022
 """
 
 import numpy as np
-from ML import preprocessor as pp
+import preprocessor as pp
 import tensorflow as tf
+import keras
 
 # Preprocess the data set
 train_data = pp.preprocess('dataset/train')

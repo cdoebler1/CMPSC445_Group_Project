@@ -1,5 +1,4 @@
-/media/
-angry.csv
+
 *.csv
 *.pyc
 *.pb
