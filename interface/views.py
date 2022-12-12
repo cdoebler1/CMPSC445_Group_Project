@@ -13,6 +13,7 @@ import preprocessor as pp
 import tensorflow as tf
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import datetime
+import time
 
 
 def result(request):
@@ -87,8 +88,11 @@ def home(request):
         filepath = os.path.join(base, str(filename))
 
         try:
+            start = time.time()
             image = tf.keras.utils.load_img(filepath, color_mode="grayscale")
             predictionCall = prediction.prediction(image)
+            end = time.time()
+            elapsed = end - start
         except OSError:
             return render(request, 'interface/error.html', {
                 'ERROR': "Model not Generated",
@@ -100,6 +104,7 @@ def home(request):
 
         return render(request, 'interface/result.html', {
             'uploaded_file_url': uploaded_file_url,
-            'prediction': predictionCall
+            'prediction': predictionCall,
+            'runtime': elapsed
         })
     return render(request, 'interface/home.html')
